@@ -59,7 +59,7 @@ You can find my list of available commands with /help.
 
 HELP_STRINGS = """
 Hey there! My name is *{}*.
-I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
+I'm a Hero For Fun and help admins manage their groups with Aniebot Have a look at the following for an idea of some of \
 the things I can help you with.
 
 *Main* commands available:
@@ -195,20 +195,20 @@ def start(update: Update, context: CallbackContext):
                     ],
                      [
                          InlineKeyboardButton(
-                             text="🚑 Support Group",
+                             text="🌉Support Group",
                              url=f"https://t.me/anie_support"),
                          InlineKeyboardButton(
-                             text="🔔 Updates Channel",
+                             text="🌃Updates Channel",
                              url="https://t.me/anie_support")
                      ],
                      [
                          InlineKeyboardButton(
-                             text="🧾 contact with my owner",
+                             text="🌇 contact with my owner",
                              url="https://t.me/shiwa_bhai_bot/29")
                      ],
                      [
                          InlineKeyboardButton(
-                             text="🗄 Source code",
+                             text="🌆 Source code",
                              url="https://github.com/botanie/SaitamaRobot")
                      ]]))
     else:
