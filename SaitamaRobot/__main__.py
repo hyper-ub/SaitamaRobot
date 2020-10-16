@@ -199,7 +199,7 @@ def start(update: Update, context: CallbackContext):
                              url=f"https://t.me/anie_support"),
                          InlineKeyboardButton(
                              text="🌃Updates Channel",
-                             url="https://t.me/anie_support")
+                             url="https://t.me/anie_news")
                      ],
                      [
                          InlineKeyboardButton(
