@@ -203,8 +203,8 @@ def start(update: Update, context: CallbackContext):
                      ],
                      [
                          InlineKeyboardButton(
-                             text="🌇 contact with my owner",
-                             url="https://t.me/shiwa_bhai_bot/29")
+                             text="🌇 Getting Started guide",
+                             url="https://t.me/anie_news/5")
                      ],
                      [
                          InlineKeyboardButton(
