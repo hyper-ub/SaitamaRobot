@@ -50,11 +50,14 @@ class WarnSettings(BASE):
     chat_id = Column(String(14), primary_key=True)
     warn_limit = Column(Integer, default=3)
     soft_warn = Column(Boolean, default=False)
+    warn_mode = Column(Integer, default=0)
 
-    def __init__(self, chat_id, warn_limit=3, soft_warn=False):
+    def __init__(self, chat_id, warn_limit=3, soft_warn=False, warn_mode=0):
         self.chat_id = str(chat_id)
         self.warn_limit = warn_limit
         self.soft_warn = soft_warn
+        self.warn_mode = warn_mode
+
 
     def __repr__(self):
         return "<{} has {} possible warns.>".format(self.chat_id,
@@ -317,5 +320,27 @@ def migrate_chat(old_chat_id, new_chat_id):
             setting.chat_id = str(new_chat_id)
         SESSION.commit()
 
+def get_allwarns(chat_id):
+    get = SESSION.query(Warns).all()
+    allwarns = []
+    for x in get:
+        if x.chat_id == str(chat_id) and x.num_warns > 0:
+            allwarns.append({"user_id": x.user_id, 'warns': x.num_warns, 'reasons': x.reasons})
+    return allwarns
+
+
+def import_warns(user_id, chat_id, warns, reasons):
+    with WARN_INSERTION_LOCK:
+        warned_user = SESSION.query(Warns).get((user_id, str(chat_id)))
+        if not warned_user:
+            warned_user = Warns(user_id, str(chat_id))
+
+        warned_user.num_warns = warns
+        warned_user.reasons = reasons
+
+        SESSION.add(warned_user)
+        SESSION.commit()
+
+        return
 
 __load_chat_warn_filters()
