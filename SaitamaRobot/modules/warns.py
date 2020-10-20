@@ -1,9 +1,8 @@
 import html
 import re
 from typing import Optional
-from SaitamaRobot.modules.helper_funcs.alternate import send_message
+
 import telegram
-from SaitamaRobot.modules.connection import connected
 from SaitamaRobot import BAN_STICKER, TIGER_USERS, WHITELIST_USERS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,
@@ -363,50 +362,30 @@ def reply_filter(update: Update, context: CallbackContext) -> str:
 @run_async
 @user_admin
 @loggable
-def set_warn_limit(update, context) -> str:
-    chat = update.effective_chat  # type: Optional[Chat]
-    user = update.effective_user  # type: Optional[User]
-    msg = update.effective_message  # type: Optional[Message]
+def set_warn_limit(update: Update, context: CallbackContext) -> str:
     args = context.args
-
-    conn = connected(context.bot, update, chat, user.id, need_admin=True)
-    if conn:
-        chat = dispatcher.bot.getChat(conn)
-        chat_id = conn
-        chat_name = dispatcher.bot.getChat(conn).title
-    else:
-        if update.effective_message.chat.type == "private":
-            send_message(update.effective_message, tl(update.effective_message, "You can do this command in the group, not Here"))
-            return ""
-        chat = update.effective_chat
-        chat_id = update.effective_chat.id
-        chat_name = update.effective_message.chat.title
+    chat: Optional[Chat] = update.effective_chat
+    user: Optional[User] = update.effective_user
+    msg: Optional[Message] = update.effective_message
 
     if args:
         if args[0].isdigit():
             if int(args[0]) < 3:
-                send_message(update.effective_message, (update.effective_message, "The minimum warning limit is 3!"))
+                msg.reply_text("The minimum warn limit is 3!")
             else:
                 sql.set_warn_limit(chat.id, int(args[0]))
-                if conn:
-                    text = (update.effective_message, "Updated limit to be warned {} on *{}*").format(args[0], chat_name)
-                else:
-                    text = (update.effective_message, "Updated limits to be warned {}").format(args[0])
-                send_message(update.effective_message, text, parse_mode="markdown")
-                return "<b>{}:</b>" \
-                       "\n#SET_WARN_LIMIT" \
-                       "\n<b>Admin:</b> {}" \
-                       "\nSet the warn limit to <code>{}</code>".format(html.escape(chat.title),
-                                                                        mention_html(user.id, user.first_name), args[0])
+                msg.reply_text("Updated the warn limit to {}".format(args[0]))
+                return (
+                    f"<b>{html.escape(chat.title)}:</b>\n"
+                    f"#SET_WARN_LIMIT\n"
+                    f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
+                    f"Set the warn limit to <code>{args[0]}</code>")
         else:
-            send_message(update.effective_message, tl(update.effective_message, "Give me the number!"))
+            msg.reply_text("Give me a number as an arg!")
     else:
-        limit, soft_warn, warn_mode = sql.get_warn_setting(chat.id)
-        if conn:
-            text = (update.effective_message, "The current warning limit is {} on *{}*").format(limit, chat_name)
-        else:
-            text = (update.effective_message, "The current warning limit is {}").format(limit)
-        send_message(update.effective_message, text, parse_mode="markdown")
+        limit, soft_warn = sql.get_warn_setting(chat.id)
+
+        msg.reply_text("The current warn limit is {}".format(limit))
     return ""
 
 
@@ -453,102 +432,6 @@ def set_warn_strength(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN)
     return ""
 
-@run_async
-@user_admin
-def set_warn_mode(update, context):
-    chat = update.effective_chat  # type: Optional[Chat]
-    user = update.effective_user  # type: Optional[User]
-    msg = update.effective_message  # type: Optional[Message]
-    args = context.args
-
-    conn = connected(context.bot, update, chat, user.id, need_admin=True)
-    if conn:
-        chat = dispatcher.bot.getChat(conn)
-        chat_id = conn
-        chat_name = dispatcher.bot.getChat(conn).title
-    else:
-        if update.effective_message.chat.type == "private":
-            send_message(update.effective_message, (update.effective_message, "You can do this command in the group, not the PM"))
-            return ""
-        chat = update.effective_chat
-        chat_id = update.effective_chat.id
-        chat_name = update.effective_message.chat.title
-
-    if args:
-        if args[0].lower() in ("kick", "soft"):
-            sql.set_warn_mode(chat.id, 1)
-            if conn:
-                text = (update.effective_message, "Too many warnings will now result kick on *{}*! Users will be able to join again.").format(chat_name)
-            else:
-                text = (update.effective_message, "Too many warnings will now result in a kick! Users will be able to join again.")
-            send_message(update.effective_message, text, parse_mode="markdown")
-            return "<b>{}:</b>\n" \
-                   "<b>Admin:</b> {}\n" \
-                   "Has changed the final warning to kick.".format(html.escape(chat.title),
-                                                                            mention_html(user.id, user.first_name))
-
-        elif args[0].lower() in ("ban", "banned", "hard"):
-            sql.set_warn_mode(chat.id, 2)
-            if conn:
-                text = (update.effective_message, "Too many warnings will result in a block on *{}*!").format(chat_name)
-            else:
-                text = (update.effective_message, "Too many warnings will result in a block!")
-            send_message(update.effective_message, text, parse_mode="markdown")
-            return "<b>{}:</b>\n" \
-                   "<b>Admin:</b> {}\n" \
-                   "Has changed the final warning to banned.".format(html.escape(chat.title),
-                                                                                  mention_html(user.id,
-                                                                                               user.first_name))
-
-        elif args[0].lower() in ("mute"):
-            sql.set_warn_mode(chat.id, 3)
-            if conn:
-                text = (update.effective_message, "Too many warnings will result in mute on *{}*!").format(chat_name)
-            else:
-                text = (update.effective_message, "Too many warnings will result in mute!")
-            send_message(update.effective_message, text, parse_mode="markdown")
-            return "<b>{}:</b>\n" \
-                   "<b>Admin:</b> {}\n" \
-                   "Has changed the final warning to mute.".format(html.escape(chat.title),
-                                                                                  mention_html(user.id,
-                                                                                               user.first_name))
-
-        else:
-            send_message(update.effective_message, tl(update.effective_message, "I only understand kick /ban /mute!"))
-    else:
-        limit, soft_warn, warn_mode = sql.get_warn_setting(chat.id)
-        if not soft_warn:
-            if not warn_mode:
-                if conn:
-                    text = (update.effective_message, "The current warning is set to *kick* user when exceeding the limit at *{}*.").format(chat_name)
-                else:
-                    text = (update.effective_message, "The current warning is set to *kick* user when exceeding limits.")
-            elif warn_mode == 1:
-                if conn:
-                    text = (update.effective_message, "The warning is currently set to *kick* user when exceeding the limit in q *{}*.").format(chat_name)
-                else:
-                    text = (update.effective_message, "The current warning is set to *kick* when the user exceeds the limit.")
-            elif warn_mode == 2:
-                if conn:
-                    text = (update.effective_message, "The current warning is set to *block* user when exceeding the limit at *{}*.").format(chat_name)
-                else:
-                    text = (update.effective_message, "The warning is currently set to *block* the user when it exceeds the limit.")
-            elif warn_mode == 3:
-                if conn:
-                    text = (update.effective_message, "The current warning is set to *mute* the user when it exceeds the limit at *{}*.").format(chat_name)
-                else:
-                    text = (update.effective_message, "The current warning is set to *mute* the user when it exceeds the limit.")
-            send_message(update.effective_message, text,
-                           parse_mode=ParseMode.MARKDOWN)
-        else:
-            if conn:
-                text = (update.effective_message, "The warning is currently set to *block* users when they exceed the limit on *{}*.").format(chat_name)
-            else:
-                text = (update.effective_message, "Warning is currently set to *block* users when exceeding the limit.")
-            send_message(update.effective_message, text,
-                           parse_mode=ParseMode.MARKDOWN)
-    return ""
-
 
 def __stats__():
     return (
@@ -587,7 +470,6 @@ __help__ = """
 be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is an angry user`. 
  • `/nowarn <keyword>`*:* stop a warning filter
  • `/warnlimit <num>`*:* set the warning limit
- • /setwarnmode kick, ban , mute take any one mode 
  • `/strongwarn <on/yes/off/no>`*:* If set to on, exceeding the warn limit will result in a ban. Else, will just punch.
 """
 
@@ -615,7 +497,6 @@ WARN_LIMIT_HANDLER = CommandHandler(
     "warnlimit", set_warn_limit, filters=Filters.group)
 WARN_STRENGTH_HANDLER = CommandHandler(
     "strongwarn", set_warn_strength, filters=Filters.group)
-WARN_MODE_HANDLER = CommandHandler("setwarnmode", set_warn_mode, pass_args=True)
 
 dispatcher.add_handler(WARN_HANDLER)
 dispatcher.add_handler(CALLBACK_QUERY_HANDLER)
@@ -627,4 +508,3 @@ dispatcher.add_handler(LIST_WARN_HANDLER)
 dispatcher.add_handler(WARN_LIMIT_HANDLER)
 dispatcher.add_handler(WARN_STRENGTH_HANDLER)
 dispatcher.add_handler(WARN_FILTER_HANDLER, WARN_HANDLER_GROUP)
-dispatcher.add_handler(WARN_MODE_HANDLER)
