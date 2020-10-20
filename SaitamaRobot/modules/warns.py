@@ -431,8 +431,8 @@ def set_warn_strength(update: Update, context: CallbackContext):
                 "Warns are currently set to *Ban* users when they exceed the limits.",
                 parse_mode=ParseMode.MARKDOWN)
     return ""
+
 @run_async
-#@spamcheck
 @user_admin
 def set_warn_mode(update, context):
     chat = update.effective_chat  # type: Optional[Chat]
@@ -457,9 +457,9 @@ def set_warn_mode(update, context):
         if args[0].lower() in ("kick", "soft"):
             sql.set_warn_mode(chat.id, 1)
             if conn:
-                text = tl(update.effective_message, "Too many warnings will now result kick on *{}*! Users will be able to join again.").format(chat_name)
+                text = (update.effective_message, "Too many warnings will now result kick on *{}*! Users will be able to join again.").format(chat_name)
             else:
-                text = tl(update.effective_message, "Too many warnings will now result in a kick! Users will be able to join again.")
+                text = (update.effective_message, "Too many warnings will now result in a kick! Users will be able to join again.")
             send_message(update.effective_message, text, parse_mode="markdown")
             return "<b>{}:</b>\n" \
                    "<b>Admin:</b> {}\n" \
@@ -469,9 +469,9 @@ def set_warn_mode(update, context):
         elif args[0].lower() in ("ban", "banned", "hard"):
             sql.set_warn_mode(chat.id, 2)
             if conn:
-                text = tl(update.effective_message, "Too many warnings will result in a block on *{}*!").format(chat_name)
+                text = (update.effective_message, "Too many warnings will result in a block on *{}*!").format(chat_name)
             else:
-                text = tl(update.effective_message, "Too many warnings will result in a block!")
+                text = (update.effective_message, "Too many warnings will result in a block!")
             send_message(update.effective_message, text, parse_mode="markdown")
             return "<b>{}:</b>\n" \
                    "<b>Admin:</b> {}\n" \
@@ -482,9 +482,9 @@ def set_warn_mode(update, context):
         elif args[0].lower() in ("mute"):
             sql.set_warn_mode(chat.id, 3)
             if conn:
-                text = tl(update.effective_message, "Too many warnings will result in mute on *{}*!").format(chat_name)
+                text = (update.effective_message, "Too many warnings will result in mute on *{}*!").format(chat_name)
             else:
-                text = tl(update.effective_message, "Too many warnings will result in mute!")
+                text = (update.effective_message, "Too many warnings will result in mute!")
             send_message(update.effective_message, text, parse_mode="markdown")
             return "<b>{}:</b>\n" \
                    "<b>Admin:</b> {}\n" \
@@ -499,31 +499,31 @@ def set_warn_mode(update, context):
         if not soft_warn:
             if not warn_mode:
                 if conn:
-                    text = tl(update.effective_message, "The current warning is set to *kick* user when exceeding the limit at *{}*.").format(chat_name)
+                    text = (update.effective_message, "The current warning is set to *kick* user when exceeding the limit at *{}*.").format(chat_name)
                 else:
-                    text = tl(update.effective_message, "The current warning is set to *kick* user when exceeding limits.")
+                    text = (update.effective_message, "The current warning is set to *kick* user when exceeding limits.")
             elif warn_mode == 1:
                 if conn:
-                    text = tl(update.effective_message, "The warning is currently set to *kick* user when exceeding the limit in q *{}*.").format(chat_name)
+                    text = (update.effective_message, "The warning is currently set to *kick* user when exceeding the limit in q *{}*.").format(chat_name)
                 else:
-                    text = tl(update.effective_message, "The current warning is set to *kick* when the user exceeds the limit.")
+                    text = (update.effective_message, "The current warning is set to *kick* when the user exceeds the limit.")
             elif warn_mode == 2:
                 if conn:
-                    text = tl(update.effective_message, "The current warning is set to *block* user when exceeding the limit at *{}*.").format(chat_name)
+                    text = (update.effective_message, "The current warning is set to *block* user when exceeding the limit at *{}*.").format(chat_name)
                 else:
-                    text = tl(update.effective_message, "The warning is currently set to *block* the user when it exceeds the limit.")
+                    text = (update.effective_message, "The warning is currently set to *block* the user when it exceeds the limit.")
             elif warn_mode == 3:
                 if conn:
-                    text = tl(update.effective_message, "The current warning is set to *mute* the user when it exceeds the limit at *{}*.").format(chat_name)
+                    text = (update.effective_message, "The current warning is set to *mute* the user when it exceeds the limit at *{}*.").format(chat_name)
                 else:
-                    text = tl(update.effective_message, "The current warning is set to *mute* the user when it exceeds the limit.")
+                    text = (update.effective_message, "The current warning is set to *mute* the user when it exceeds the limit.")
             send_message(update.effective_message, text,
                            parse_mode=ParseMode.MARKDOWN)
         else:
             if conn:
-                text = tl(update.effective_message, "The warning is currently set to *block* users when they exceed the limit on *{}*.").format(chat_name)
+                text = (update.effective_message, "The warning is currently set to *block* users when they exceed the limit on *{}*.").format(chat_name)
             else:
-                text = tl(update.effective_message, "Warning is currently set to *block* users when exceeding the limit.")
+                text = (update.effective_message, "Warning is currently set to *block* users when exceeding the limit.")
             send_message(update.effective_message, text,
                            parse_mode=ParseMode.MARKDOWN)
     return ""
