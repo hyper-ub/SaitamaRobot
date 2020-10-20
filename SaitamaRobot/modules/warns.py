@@ -448,7 +448,7 @@ def set_warn_mode(update, context):
         chat_name = dispatcher.bot.getChat(conn).title
     else:
         if update.effective_message.chat.type == "private":
-            send_message(update.effective_message, tl(update.effective_message, "You can do this command in the group, not the PM"))
+            send_message(update.effective_message, (update.effective_message, "You can do this command in the group, not the PM"))
             return ""
         chat = update.effective_chat
         chat_id = update.effective_chat.id
