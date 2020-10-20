@@ -3,6 +3,7 @@ import re
 from typing import Optional
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
 import telegram
+from SaitamaRobot.modules.connection import connected
 from SaitamaRobot import BAN_STICKER, TIGER_USERS, WHITELIST_USERS, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,
