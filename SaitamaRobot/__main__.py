@@ -189,7 +189,7 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text="Add Me",
+                            text="Add Me To Your Group",
                             url="t.me/{}?startgroup=true".format(
                                 context.bot.username))
                     ],
@@ -209,7 +209,7 @@ def start(update: Update, context: CallbackContext):
                      [
                          InlineKeyboardButton(
                              text="Help",
-                             callback_data="help_back")
+                             url="https://t.me/Anierobot_bot?start=help")
                      ]]))
     else:
         update.effective_message.reply_text(
