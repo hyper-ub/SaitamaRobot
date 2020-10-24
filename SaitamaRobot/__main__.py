@@ -189,27 +189,27 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text="☑️ Add Anie to your group",
+                            text="Add Me",
                             url="t.me/{}?startgroup=true".format(
                                 context.bot.username))
                     ],
                      [
                          InlineKeyboardButton(
-                             text="🌉Support Group",
+                             text="Support Group",
                              url=f"https://t.me/anie_support"),
                          InlineKeyboardButton(
-                             text="🌃Updates Channel",
+                             text="Updates Channel",
                              url="https://t.me/anie_news")
                      ],
                      [
                          InlineKeyboardButton(
-                             text="🌇 Getting Started guide",
+                             text="Tutorial",
                              url="https://t.me/anie_news/5")
                      ],
                      [
                          InlineKeyboardButton(
-                             text="🌆 Source code",
-                             url="https://github.com/botanie/SaitamaRobot")
+                             text="Help",
+                             callback_data="help_back")
                      ]]))
     else:
         update.effective_message.reply_text(
