@@ -203,13 +203,13 @@ def start(update: Update, context: CallbackContext):
                      ],
                      [
                          InlineKeyboardButton(
-                             text="Tutorial",
+                             text="Getting started guide",
                              url="https://t.me/anie_news/5")
                      ],
                      [
                          InlineKeyboardButton(
-                             text="Help",
-                             url="https://t.me/Anierobot_bot?start=help")
+                             text="source code",
+                             url="https://github.com/botanie/SaitamaRobot")
                      ]]))
     else:
         update.effective_message.reply_text(
