@@ -77,7 +77,7 @@ And the following:
     dispatcher.bot.first_name, ""
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-SAITAMA_IMG = "https://i.pinimg.com/originals/da/3d/ff/da3dff8ef7acc76d689cfbece09f6564.png"
+SAITAMA_IMG = "https://telegra.ph/file/83a95e1cf84c67ecad238.mp4"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 Saitama is hosted on one of Kaizoku's Servers and doesn't require any donations as of now but \
