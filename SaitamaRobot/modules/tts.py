@@ -53,5 +53,5 @@ TTS_HANDLER = DisableAbleCommandHandler("tts", tts, pass_args=True)
 dispatcher.add_handler(TTS_HANDLER)
 
 __mod_name__ = "tts"
-__command_list__ = ["tts"]
+__command_list__ = ["Tts"]
 __handlers__ = [TTS_HANDLER]
