@@ -52,7 +52,7 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi, my name is "<b style="color:red;">Kora</b>" ! 
+Hi, my name is <i>*Kora*</i> ! 
 I am an Anime themed group management bot.
 <p style="color:blue;"> Build by weebs for weebs, I specialize in managing anime and similar themed groups.
 You can find my list of available commands with /help. </p>
@@ -199,7 +199,7 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text="☑️ Add Saitama to your group",
+                            text="☑️ Add Kora to your group",
                             url="t.me/{}?startgroup=true".format(
                                 context.bot.username))
                     ],
@@ -209,7 +209,7 @@ def start(update: Update, context: CallbackContext):
                              url=f"https://t.me/{SUPPORT_CHAT}"),
                          InlineKeyboardButton(
                              text="🔔 Updates Channel",
-                             url="https://t.me/OnePunchUpdates")
+                             url="https://t.me/KoraSupport")
                      ],
                      [
                          InlineKeyboardButton(
