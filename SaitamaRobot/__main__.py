@@ -52,14 +52,14 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi, my name is <i>*Kora*</i> ! 
+Hi, my name is __Kora__ ! 
 I am an Anime themed group management bot.
-<p style="color:blue;"> Build by weebs for weebs, I specialize in managing anime and similar themed groups.
-You can find my list of available commands with /help. </p>
+Build by weebs for weebs, I specialize in managing anime and similar themed groups.
+You can find my list of available commands with /help.
 """
 
 HELP_STRINGS = """
-Hey there! My name is <b style="color:red;"> Kora </b>.
+Hey there! My name is __Kora__ .
 I am a blank, I will be your partner and can help make your group great and attract members to the group. Take a look to know about some of the following things.
 
 *Main* commands available:
@@ -206,10 +206,10 @@ def start(update: Update, context: CallbackContext):
                      [
                          InlineKeyboardButton(
                              text="🚑 Support Group",
-                             url=f"https://t.me/{SUPPORT_CHAT}"),
+                             url=f"https://t.me/{KoraSupport}"),
                          InlineKeyboardButton(
                              text="🔔 Updates Channel",
-                             url="https://t.me/KoraSupport")
+                             url="https://t.me/Kora_logs")
                      ],
                      [
                          InlineKeyboardButton(
