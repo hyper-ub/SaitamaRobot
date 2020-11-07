@@ -52,14 +52,14 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi, my name is Kora! 
+Hi, my name is <b style="color:red;"> Kora </b>! 
 I am an Anime themed group management bot.
-Build by weebs for weebs, I specialize in managing anime and similar themed groups.
-You can find my list of available commands with /help.
+<p style="color:blue;"> Build by weebs for weebs, I specialize in managing anime and similar themed groups.
+You can find my list of available commands with /help. </p>
 """
 
 HELP_STRINGS = """
-Hey there! My name is *Kora*.
+Hey there! My name is <b style="color:red;"> Kora </b>.
 I am a blank, I will be your partner and can help make your group great and attract members to the group. Take a look to know about some of the following things.
 
 *Main* commands available:
