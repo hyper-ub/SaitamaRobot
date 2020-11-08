@@ -189,26 +189,26 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text="🕹Add Me To Your Group",
+                            text="🤖Add Me To Your Group",
                             url="t.me/{}?startgroup=true".format(
                                 context.bot.username))
                     ],
                      [
                          InlineKeyboardButton(
-                             text="Support Group",
+                             text="🔄Support Group",
                              url=f"https://t.me/anie_support"),
                          InlineKeyboardButton(
-                             text="🧲Updates Channel",
+                             text="🔄Updates Channel",
                              url="https://t.me/anie_news")
                      ],
                      [
                          InlineKeyboardButton(
-                             text="🛠Getting started guide",
+                             text="📖Getting started guide",
                              url="https://t.me/anie_news/5")
                      ],
                      [
                          InlineKeyboardButton(
-                             text="💎Made from the source code of",
+                             text="☑️Made from the source code of",
                              url="https://t.me/shiwa_bhai_bot")
                      ]]))
     else:
