@@ -39,26 +39,26 @@ if ENV:
     OWNER_USERNAME = os.environ.get("OWNER_USERNAME", None)
 
     try:
-        DRAGONS = set(int(x) for x in os.environ.get("DRAGONS", "").split())
+        WORLD_GOVT = set(int(x) for x in os.environ.get("WORLD_GOVT", "").split())
         DEV_USERS = set(int(x) for x in os.environ.get("DEV_USERS", "").split())
     except ValueError:
         raise Exception(
             "Your sudo or dev users list does not contain valid integers.")
 
     try:
-        DEMONS = set(int(x) for x in os.environ.get("DEMONS", "").split())
+        ADMIRALS = set(int(x) for x in os.environ.get("ADMIRALS", "").split())
     except ValueError:
         raise Exception(
             "Your support users list does not contain valid integers.")
 
     try:
-        WOLVES = set(int(x) for x in os.environ.get("WOLVES", "").split())
+        REVOLUTIONARIES = set(int(x) for x in os.environ.get("REVOLUTIONARIES", "").split())
     except ValueError:
         raise Exception(
             "Your whitelisted users list does not contain valid integers.")
 
     try:
-        TIGERS = set(int(x) for x in os.environ.get("TIGERS", "").split())
+        WARLORDS = set(int(x) for x in os.environ.get("WARLORDS", "").split())
     except ValueError:
         raise Exception(
             "Your tiger users list does not contain valid integers.")
@@ -108,26 +108,26 @@ else:
     OWNER_USERNAME = Config.OWNER_USERNAME
 
     try:
-        DRAGONS = set(int(x) for x in Config.DRAGONS or [])
+        WORLD_GOVT = set(int(x) for x in Config.WORLD_GOVT or [])
         DEV_USERS = set(int(x) for x in Config.DEV_USERS or [])
     except ValueError:
         raise Exception(
             "Your sudo or dev users list does not contain valid integers.")
 
     try:
-        DEMONS = set(int(x) for x in Config.DEMONS or [])
+        ADMIRALS = set(int(x) for x in Config.ADMIRALS or [])
     except ValueError:
         raise Exception(
             "Your support users list does not contain valid integers.")
 
     try:
-        WOLVES = set(int(x) for x in Config.WOLVES or [])
+        REVOLUTIONARIES = set(int(x) for x in Config.REVOLUTIONARIES or [])
     except ValueError:
         raise Exception(
             "Your whitelisted users list does not contain valid integers.")
 
     try:
-        TIGERS = set(int(x) for x in Config.TIGERS or [])
+        WARLORDS = set(int(x) for x in Config.WARLORDS or [])
     except ValueError:
         raise Exception(
             "Your tiger users list does not contain valid integers.")
@@ -164,7 +164,7 @@ else:
         raise Exception(
             "Your blacklisted chats list does not contain valid integers.")
 
-DRAGONS.add(OWNER_ID)
+WORLD_GOVT.add(OWNER_ID)
 DEV_USERS.add(OWNER_ID)
 
 if not SPAMWATCH_API:
@@ -177,11 +177,11 @@ updater = tg.Updater(TOKEN, workers=WORKERS, use_context=True)
 telethn = TelegramClient("saitama", API_ID, API_HASH)
 dispatcher = updater.dispatcher
 
-DRAGONS = list(DRAGONS) + list(DEV_USERS)
+WORLD_GOVT = list(WORLD_GOVT) + list(DEV_USERS)
 DEV_USERS = list(DEV_USERS)
-WOLVES = list(WOLVES)
-DEMONS = list(DEMONS)
-TIGERS = list(TIGERS)
+REVOLUTIONARIES = list(REVOLUTIONARIES)
+ADMIRALS = list(ADMIRALS)
+WARLORDS = list(WARLORDS)
 
 # Load at end to ensure all prev variables have been set
 from SaitamaRobot.modules.helper_funcs.handlers import (CustomCommandHandler,

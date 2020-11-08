@@ -5,8 +5,8 @@ import time
 from functools import partial
 
 import SaitamaRobot.modules.sql.welcome_sql as sql
-from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, DRAGONS, DEMONS, TIGERS,
-                          WOLVES, sw, dispatcher, JOIN_LOGGER)
+from SaitamaRobot import (DEV_USERS, LOGGER, OWNER_ID, WORLD_GOVT, ADMIRALS, WARLORDS,
+                          REVOLUTIONARIES, sw, dispatcher, JOIN_LOGGER)
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     is_user_ban_protected,
     user_admin,
@@ -187,7 +187,7 @@ def new_member(update: Update, context: CallbackContext):
                 continue
 
             # Welcome Sudos
-            elif new_mem.id in DRAGONS:
+            elif new_mem.id in WORLD_GOVT:
                 update.effective_message.reply_text(
                     "Huh! A Dragon disaster just joined! Stay Alert!",
                     reply_to_message_id=reply,
@@ -195,7 +195,7 @@ def new_member(update: Update, context: CallbackContext):
                 continue
 
             # Welcome Support
-            elif new_mem.id in DEMONS:
+            elif new_mem.id in ADMIRALS:
                 update.effective_message.reply_text(
                     "Huh! Someone with a Demon disaster level just joined!",
                     reply_to_message_id=reply,
@@ -203,14 +203,14 @@ def new_member(update: Update, context: CallbackContext):
                 continue
 
             # Welcome Whitelisted
-            elif new_mem.id in TIGERS:
+            elif new_mem.id in WARLORDS:
                 update.effective_message.reply_text(
                     "Oof! A Tiger disaster just joined!",
                     reply_to_message_id=reply)
                 continue
 
-            # Welcome Tigers
-            elif new_mem.id in WOLVES:
+            # Welcome WARLORDS
+            elif new_mem.id in REVOLUTIONARIES:
                 update.effective_message.reply_text(
                     "Oof! A Wolf disaster just joined!",
                     reply_to_message_id=reply)

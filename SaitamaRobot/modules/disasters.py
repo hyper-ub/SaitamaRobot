@@ -3,8 +3,8 @@ import json
 import os
 from typing import Optional
 
-from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, SUPPORT_CHAT, DEMONS,
-                          TIGERS, WOLVES, dispatcher)
+from SaitamaRobot import (DEV_USERS, OWNER_ID, WORLD_GOVT, SUPPORT_CHAT, ADMIRALS,
+                          WARLORDS, REVOLUTIONARIES, dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (dev_plus, sudo_plus,
                                                            whitelist_plus)
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
@@ -62,22 +62,22 @@ def addsudo(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in DRAGONS:
+    if user_id in WORLD_GOVT:
         message.reply_text("This member is already a Dragon Disaster")
         return ""
 
-    if user_id in DEMONS:
+    if user_id in ADMIRALS:
         rt += "Requested HA to promote a Demon Disaster to Dragon."
         data['supports'].remove(user_id)
-        DEMONS.remove(user_id)
+        ADMIRALS.remove(user_id)
 
-    if user_id in WOLVES:
+    if user_id in REVOLUTIONARIES:
         rt += "Requested HA to promote a Wolf Disaster to Dragon."
         data['whitelists'].remove(user_id)
-        WOLVES.remove(user_id)
+        REVOLUTIONARIES.remove(user_id)
 
     data['sudos'].append(user_id)
-    DRAGONS.append(user_id)
+    WORLD_GOVT.append(user_id)
 
     with open(ELEVATED_USERS_FILE, 'w') as outfile:
         json.dump(data, outfile, indent=4)
@@ -121,22 +121,22 @@ def addsupport(
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in DRAGONS:
+    if user_id in WORLD_GOVT:
         rt += "Requested HA to deomote this Dragon to Demon"
         data['sudos'].remove(user_id)
-        DRAGONS.remove(user_id)
+        WORLD_GOVT.remove(user_id)
 
-    if user_id in DEMONS:
+    if user_id in ADMIRALS:
         message.reply_text("This user is already a Demon Disaster.")
         return ""
 
-    if user_id in WOLVES:
+    if user_id in REVOLUTIONARIES:
         rt += "Requested HA to promote this Wolf Disaster to Demon"
         data['whitelists'].remove(user_id)
-        WOLVES.remove(user_id)
+        REVOLUTIONARIES.remove(user_id)
 
     data['supports'].append(user_id)
-    DEMONS.append(user_id)
+    ADMIRALS.append(user_id)
 
     with open(ELEVATED_USERS_FILE, 'w') as outfile:
         json.dump(data, outfile, indent=4)
@@ -176,22 +176,22 @@ def addwhitelist(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in DRAGONS:
+    if user_id in WORLD_GOVT:
         rt += "This member is a Dragon Disaster, Demoting to Wolf."
         data['sudos'].remove(user_id)
-        DRAGONS.remove(user_id)
+        WORLD_GOVT.remove(user_id)
 
-    if user_id in DEMONS:
+    if user_id in ADMIRALS:
         rt += "This user is already a Demon Disaster, Demoting to Wolf."
         data['supports'].remove(user_id)
-        DEMONS.remove(user_id)
+        ADMIRALS.remove(user_id)
 
-    if user_id in WOLVES:
+    if user_id in REVOLUTIONARIES:
         message.reply_text("This user is already a Wolf Disaster.")
         return ""
 
     data['whitelists'].append(user_id)
-    WOLVES.append(user_id)
+    REVOLUTIONARIES.append(user_id)
 
     with open(ELEVATED_USERS_FILE, 'w') as outfile:
         json.dump(data, outfile, indent=4)
@@ -232,27 +232,27 @@ def addtiger(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in DRAGONS:
+    if user_id in WORLD_GOVT:
         rt += "This member is a Dragon Disaster, Demoting to Tiger."
         data['sudos'].remove(user_id)
-        DRAGONS.remove(user_id)
+        WORLD_GOVT.remove(user_id)
 
-    if user_id in DEMONS:
+    if user_id in ADMIRALS:
         rt += "This user is already a Demon Disaster, Demoting to Tiger."
         data['supports'].remove(user_id)
-        DEMONS.remove(user_id)
+        ADMIRALS.remove(user_id)
 
-    if user_id in WOLVES:
+    if user_id in REVOLUTIONARIES:
         rt += "This user is already a Wolf Disaster, Demoting to Tiger."
         data['whitelists'].remove(user_id)
-        WOLVES.remove(user_id)
+        REVOLUTIONARIES.remove(user_id)
 
-    if user_id in TIGERS:
+    if user_id in WARLORDS:
         message.reply_text("This user is already a Tiger.")
         return ""
 
-    data['tigers'].append(user_id)
-    TIGERS.append(user_id)
+    data['WARLORDS'].append(user_id)
+    WARLORDS.append(user_id)
 
     with open(ELEVATED_USERS_FILE, 'w') as outfile:
         json.dump(data, outfile, indent=4)
@@ -293,9 +293,9 @@ def removesudo(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in DRAGONS:
+    if user_id in WORLD_GOVT:
         message.reply_text("Requested HA to demote this user to Civilian")
-        DRAGONS.remove(user_id)
+        WORLD_GOVT.remove(user_id)
         data['sudos'].remove(user_id)
 
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
@@ -337,9 +337,9 @@ def removesupport(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in DEMONS:
+    if user_id in ADMIRALS:
         message.reply_text("Requested HA to demote this user to Civilian")
-        DEMONS.remove(user_id)
+        ADMIRALS.remove(user_id)
         data['supports'].remove(user_id)
 
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
@@ -380,9 +380,9 @@ def removewhitelist(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in WOLVES:
+    if user_id in REVOLUTIONARIES:
         message.reply_text("Demoting to normal user")
-        WOLVES.remove(user_id)
+        REVOLUTIONARIES.remove(user_id)
         data['whitelists'].remove(user_id)
 
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
@@ -422,10 +422,10 @@ def removetiger(update: Update, context: CallbackContext) -> str:
     with open(ELEVATED_USERS_FILE, 'r') as infile:
         data = json.load(infile)
 
-    if user_id in TIGERS:
+    if user_id in WARLORDS:
         message.reply_text("Demoting to normal user")
-        TIGERS.remove(user_id)
-        data['tigers'].remove(user_id)
+        WARLORDS.remove(user_id)
+        data['WARLORDS'].remove(user_id)
 
         with open(ELEVATED_USERS_FILE, 'w') as outfile:
             json.dump(data, outfile, indent=4)
@@ -450,7 +450,7 @@ def removetiger(update: Update, context: CallbackContext) -> str:
 def whitelistlist(update: Update, context: CallbackContext):
     reply = "<b>Known Wolf Disasters 🐺:</b>\n"
     bot = context.bot
-    for each_user in WOLVES:
+    for each_user in REVOLUTIONARIES:
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
@@ -466,7 +466,7 @@ def whitelistlist(update: Update, context: CallbackContext):
 def tigerlist(update: Update, context: CallbackContext):
     reply = "<b>Known Tiger Disasters 🐯:</b>\n"
     bot = context.bot
-    for each_user in TIGERS:
+    for each_user in WARLORDS:
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
@@ -481,7 +481,7 @@ def tigerlist(update: Update, context: CallbackContext):
 def supportlist(update: Update, context: CallbackContext):
     bot = context.bot
     reply = "<b>Known Demon Disasters 👹:</b>\n"
-    for each_user in DEMONS:
+    for each_user in ADMIRALS:
         user_id = int(each_user)
         try:
             user = bot.get_chat(user_id)
@@ -495,7 +495,7 @@ def supportlist(update: Update, context: CallbackContext):
 @whitelist_plus
 def sudolist(update: Update, context: CallbackContext):
     bot = context.bot
-    true_sudo = list(set(DRAGONS) - set(DEV_USERS))
+    true_sudo = list(set(WORLD_GOVT) - set(DEV_USERS))
     reply = "<b>Known Dragon Disasters 🐉:</b>\n"
     for each_user in true_sudo:
         user_id = int(each_user)
@@ -529,10 +529,10 @@ Commands listed here only work for users with special access are mainly used for
 Group admins/group owners do not need these commands. 
 
  ╔ *List all special users:*
- ╠ `/dragons`*:* Lists all Dragon disasters
- ╠ `/demons`*:* Lists all Demon disasters
- ╠ `/tigers`*:* Lists all Tigers disasters
- ╠ `/wolves`*:* Lists all Wolf disasters
+ ╠ `/WORLD_GOVT`*:* Lists all Dragon disasters
+ ╠ `/ADMIRALS`*:* Lists all Demon disasters
+ ╠ `/WARLORDS`*:* Lists all WARLORDS disasters
+ ╠ `/REVOLUTIONARIES`*:* Lists all Wolf disasters
  ╚ `/heroes`*:* Lists all Hero Association members
 
  ╔ *Ping:*
@@ -604,11 +604,11 @@ UNTIGER_HANDLER = CommandHandler(("removetiger"), removetiger)
 UNWHITELIST_HANDLER = CommandHandler(("removewhitelist", "removewolf"),
                                      removewhitelist)
 
-WHITELISTLIST_HANDLER = CommandHandler(["whitelistlist", "wolves"],
+WHITELISTLIST_HANDLER = CommandHandler(["whitelistlist", "REVOLUTIONARIES"],
                                        whitelistlist)
-TIGERLIST_HANDLER = CommandHandler(["tigers"], tigerlist)
-SUPPORTLIST_HANDLER = CommandHandler(["supportlist", "demons"], supportlist)
-SUDOLIST_HANDLER = CommandHandler(["sudolist", "dragons"], sudolist)
+TIGERLIST_HANDLER = CommandHandler(["WARLORDS"], tigerlist)
+SUPPORTLIST_HANDLER = CommandHandler(["supportlist", "ADMIRALS"], supportlist)
+SUDOLIST_HANDLER = CommandHandler(["sudolist", "WORLD_GOVT"], sudolist)
 DEVLIST_HANDLER = CommandHandler(["devlist", "heroes"], devlist)
 
 dispatcher.add_handler(SUDO_HANDLER)

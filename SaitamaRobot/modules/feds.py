@@ -8,7 +8,7 @@ from io import BytesIO
 import html
 
 import SaitamaRobot.modules.sql.feds_sql as sql
-from SaitamaRobot import (EVENT_LOGS, LOGGER, OWNER_ID, DRAGONS, TIGERS, WOLVES,
+from SaitamaRobot import (EVENT_LOGS, LOGGER, OWNER_ID, WORLD_GOVT, WARLORDS, REVOLUTIONARIES,
                           dispatcher)
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.alternate import send_message
@@ -209,7 +209,7 @@ def join_fed(update: Update, context: CallbackContext):
     administrators = chat.get_administrators()
     fed_id = sql.get_fed_id(chat.id)
 
-    if user.id in DRAGONS:
+    if user.id in WORLD_GOVT:
         pass
     else:
         for admin in administrators:
@@ -267,7 +267,7 @@ def leave_fed(update: Update, context: CallbackContext):
 
     # administrators = chat.get_administrators().status
     getuser = bot.get_chat_member(chat.id, user.id).status
-    if getuser in 'creator' or user.id in DRAGONS:
+    if getuser in 'creator' or user.id in WORLD_GOVT:
         if sql.chat_leave_fed(chat.id) is True:
             get_fedlog = sql.get_fed_log(fed_id)
             if get_fedlog:
@@ -303,7 +303,7 @@ def user_join_fed(update: Update, context: CallbackContext):
 
     fed_id = sql.get_fed_id(chat.id)
 
-    if is_user_fed_owner(fed_id, user.id) or user.id in DRAGONS:
+    if is_user_fed_owner(fed_id, user.id) or user.id in WORLD_GOVT:
         user_id = extract_user(msg, args)
         if user_id:
             user = bot.get_chat(user_id)
@@ -549,16 +549,16 @@ def fed_ban(update: Update, context: CallbackContext):
         message.reply_text("Disaster level God cannot be fed banned!")
         return
 
-    if int(user_id) in DRAGONS:
-        message.reply_text("Dragons cannot be fed banned!")
+    if int(user_id) in WORLD_GOVT:
+        message.reply_text("WORLD_GOVT cannot be fed banned!")
         return
 
-    if int(user_id) in TIGERS:
-        message.reply_text("Tigers cannot be fed banned!")
+    if int(user_id) in WARLORDS:
+        message.reply_text("WARLORDS cannot be fed banned!")
         return
 
-    if int(user_id) in WOLVES:
-        message.reply_text("Wolves cannot be fed banned!")
+    if int(user_id) in REVOLUTIONARIES:
+        message.reply_text("REVOLUTIONARIES cannot be fed banned!")
         return
 
     if user_id in [777000, 1087968824]:
@@ -1199,10 +1199,10 @@ def fed_ban_list(update: Update, context: CallbackContext):
                         parse_mode=ParseMode.MARKDOWN)
                     return
                 else:
-                    if user.id not in DRAGONS:
+                    if user.id not in WORLD_GOVT:
                         put_chat(chat.id, new_jam, chat_data)
             else:
-                if user.id not in DRAGONS:
+                if user.id not in WORLD_GOVT:
                     put_chat(chat.id, new_jam, chat_data)
             backups = ""
             for users in getfban:
@@ -1238,10 +1238,10 @@ def fed_ban_list(update: Update, context: CallbackContext):
                         parse_mode=ParseMode.MARKDOWN)
                     return
                 else:
-                    if user.id not in DRAGONS:
+                    if user.id not in WORLD_GOVT:
                         put_chat(chat.id, new_jam, chat_data)
             else:
-                if user.id not in DRAGONS:
+                if user.id not in WORLD_GOVT:
                     put_chat(chat.id, new_jam, chat_data)
             backups = "id,firstname,lastname,username,reason\n"
             for users in getfban:
@@ -1292,10 +1292,10 @@ def fed_ban_list(update: Update, context: CallbackContext):
                     parse_mode=ParseMode.MARKDOWN)
                 return
             else:
-                if user.id not in DRAGONS:
+                if user.id not in WORLD_GOVT:
                     put_chat(chat.id, new_jam, chat_data)
         else:
-            if user.id not in DRAGONS:
+            if user.id not in WORLD_GOVT:
                 put_chat(chat.id, new_jam, chat_data)
         cleanr = re.compile('<.*?>')
         cleantext = re.sub(cleanr, '', text)
@@ -1438,10 +1438,10 @@ def fed_import_bans(update: Update, context: CallbackContext):
                     parse_mode=ParseMode.MARKDOWN)
                 return
             else:
-                if user.id not in DRAGONS:
+                if user.id not in WORLD_GOVT:
                     put_chat(chat.id, new_jam, chat_data)
         else:
-            if user.id not in DRAGONS:
+            if user.id not in WORLD_GOVT:
                 put_chat(chat.id, new_jam, chat_data)
         #if int(int(msg.reply_to_message.document.file_size)/1024) >= 200:
         #	msg.reply_text("This file is too big!")
@@ -1498,13 +1498,13 @@ def fed_import_bans(update: Update, context: CallbackContext):
                     if str(import_userid) == str(OWNER_ID):
                         failed += 1
                         continue
-                    if int(import_userid) in DRAGONS:
+                    if int(import_userid) in WORLD_GOVT:
                         failed += 1
                         continue
-                    if int(import_userid) in TIGERS:
+                    if int(import_userid) in WARLORDS:
                         failed += 1
                         continue
-                    if int(import_userid) in WOLVES:
+                    if int(import_userid) in REVOLUTIONARIES:
                         failed += 1
                         continue
                     multi_fed_id.append(fed_id)
@@ -1567,13 +1567,13 @@ def fed_import_bans(update: Update, context: CallbackContext):
                     if str(import_userid) == str(OWNER_ID):
                         failed += 1
                         continue
-                    if int(import_userid) in DRAGONS:
+                    if int(import_userid) in WORLD_GOVT:
                         failed += 1
                         continue
-                    if int(import_userid) in TIGERS:
+                    if int(import_userid) in WARLORDS:
                         failed += 1
                         continue
-                    if int(import_userid) in WOLVES:
+                    if int(import_userid) in REVOLUTIONARIES:
                         failed += 1
                         continue
                     multi_fed_id.append(fed_id)

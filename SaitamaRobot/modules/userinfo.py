@@ -14,7 +14,7 @@ from telegram.ext.dispatcher import run_async
 from telegram.error import BadRequest
 from telegram.utils.helpers import escape_markdown, mention_html
 
-from SaitamaRobot import (DEV_USERS, OWNER_ID, DRAGONS, DEMONS, TIGERS, WOLVES,
+from SaitamaRobot import (DEV_USERS, OWNER_ID, WORLD_GOVT, ADMIRALS, WARLORDS, REVOLUTIONARIES,
                           INFOPIC, dispatcher, sw)
 from SaitamaRobot.__main__ import STATS, TOKEN, USER_INFO
 import SaitamaRobot.modules.sql.userinfo_sql as sql
@@ -25,7 +25,7 @@ from SaitamaRobot.modules.sql.users_sql import get_user_num_chats
 from SaitamaRobot.modules.sql.feds_sql import get_user_fbanlist
 from SaitamaRobot.modules.helper_funcs.chat_status import sudo_plus
 from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from SaitamaRobot import telethn as SaitamaTelethonClient, TIGERS, DRAGONS, DEMONS
+from SaitamaRobot import telethn as SaitamaTelethonClient, WARLORDS, WORLD_GOVT, ADMIRALS
 
 
 def no_by_per(totalhp, percentage):
@@ -155,7 +155,7 @@ def get_id(update: Update, context: CallbackContext):
 @SaitamaTelethonClient.on(
     events.NewMessage(
         pattern='/ginfo ',
-        from_users=(TIGERS or []) + (DRAGONS or []) + (DEMONS or [])))
+        from_users=(WARLORDS or []) + (WORLD_GOVT or []) + (ADMIRALS or [])))
 async def group_info(event) -> None:
     chat = event.text.split(' ', 1)[1]
     try:
@@ -272,26 +272,26 @@ def info(update: Update, context: CallbackContext):
     disaster_level_present = False
 
     if user.id == OWNER_ID:
-        text += "\n\nThe Disaster level of this person is 'God'."
+        text += "\n\nThe Disaster level of this person is 'Pirate King'."
         disaster_level_present = True
     elif user.id in DEV_USERS:
-        text += "\n\nThis user is member of 'Hero Association'."
+        text += "\n\nThis user is an 'Emperor'."
         disaster_level_present = True
-    elif user.id in DRAGONS:
-        text += "\n\nThe Disaster level of this person is 'Dragon'."
+    elif user.id in WORLD_GOVT:
+        text += "\n\nThis person is a member of 'World Government'."
         disaster_level_present = True
-    elif user.id in DEMONS:
-        text += "\n\nThe Disaster level of this person is 'Demon'."
+    elif user.id in ADMIRALS:
+        text += "\n\nThe Disaster level of this person is 'Admiral'."
         disaster_level_present = True
-    elif user.id in TIGERS:
-        text += "\n\nThe Disaster level of this person is 'Tiger'."
+    elif user.id in WARLORDS:
+        text += "\n\nThe Disaster level of this person is 'Warlord'."
         disaster_level_present = True
-    elif user.id in WOLVES:
-        text += "\n\nThe Disaster level of this person is 'Wolf'."
+    elif user.id in REVOLUTIONARIES:
+        text += "\n\nThe Disaster level of this person is 'Revolutionary'."
         disaster_level_present = True
 
     if disaster_level_present:
-        text += ' [<a href="https://t.me/OnePunchUpdates/155">?</a>]'.format(
+        text += ' [<a href="https://t.me/OnePieceBase/656">?</a>]'.format(
             bot.username)
 
     try:

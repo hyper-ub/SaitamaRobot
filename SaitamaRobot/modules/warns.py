@@ -3,7 +3,7 @@ import re
 from typing import Optional
 
 import telegram
-from SaitamaRobot import BAN_STICKER, TIGERS, WOLVES, dispatcher
+from SaitamaRobot import BAN_STICKER, WARLORDS, REVOLUTIONARIES, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,
                                                            can_restrict,
@@ -40,21 +40,21 @@ def warn(user: User,
         # message.reply_text("Damn admins, They are too far to be One Punched!")
         return
 
-    if user.id in TIGERS:
+    if user.id in WARLORDS:
         if warner:
-            message.reply_text("Tigers cant be warned.")
+            message.reply_text("WARLORDS cant be warned.")
         else:
             message.reply_text(
-                "Tiger triggered an auto warn filter!\n I can't warn tigers but they should avoid abusing this."
+                "Tiger triggered an auto warn filter!\n I can't warn WARLORDS but they should avoid abusing this."
             )
         return
 
-    if user.id in WOLVES:
+    if user.id in REVOLUTIONARIES:
         if warner:
             message.reply_text("Wolf disasters are warn immune.")
         else:
             message.reply_text(
-                "Wolf Disaster triggered an auto warn filter!\nI can't warn wolves but they should avoid abusing this."
+                "Wolf Disaster triggered an auto warn filter!\nI can't warn REVOLUTIONARIES but they should avoid abusing this."
             )
         return
 

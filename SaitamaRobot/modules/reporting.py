@@ -1,6 +1,6 @@
 import html
 
-from SaitamaRobot import (LOGGER, DRAGONS, TIGERS, WOLVES, dispatcher)
+from SaitamaRobot import (LOGGER, WORLD_GOVT, WARLORDS, REVOLUTIONARIES, dispatcher)
 from SaitamaRobot.modules.helper_funcs.chat_status import (user_admin,
                                                            user_not_admin)
 from SaitamaRobot.modules.log_channel import loggable
@@ -13,7 +13,7 @@ from telegram.ext import (CallbackContext, CallbackQueryHandler, CommandHandler,
 from telegram.utils.helpers import mention_html
 
 REPORT_GROUP = 12
-REPORT_IMMUNE_USERS = DRAGONS + TIGERS + WOLVES
+REPORT_IMMUNE_USERS = WORLD_GOVT + WARLORDS + REVOLUTIONARIES
 
 
 @run_async
