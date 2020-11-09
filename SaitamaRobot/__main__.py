@@ -79,7 +79,7 @@ And the following:
 
 SAITAMA_IMG = "https://telegra.ph/file/863a3241604e433e8d71c.jpg"
 
-DONATE_STRING = """Anie doesn't need any donations as of now. Thank )""" 
+DONATE_STRING = """Anie doesn't need any donations as of now. Thank """ 
 
 
 IMPORTED = {}
@@ -87,7 +87,7 @@ MIGRATEABLE = []
 HELPABLE = {}
 STATS = []
 USER_INFO = []
-DATA_IMPORT = []l
+DATA_IMPORT = []
 DATA_EXPORT = []
 CHAT_SETTINGS = {}
 USER_SETTINGS = {}
