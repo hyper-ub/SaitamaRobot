@@ -1,6 +1,6 @@
 heroes association(dev_users)-> emperors
 god -> pirate king
-DRAGONS -> world government 
-DEMONS -> admirals
-tigers -> warlords
+DRAGONS -> World Government 
+DEMONS -> Admirals
+tigers -> Warlords
 wolves -> revolutionary
