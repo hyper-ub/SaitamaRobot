@@ -1,6 +1,6 @@
-heroes association -> emperors
+heroes association(dev_users)-> emperors
 god -> pirate king
 DRAGONS -> world government 
 DEMONS -> admirals
 tigers -> warlords
-REVOLUTIONARIES -> revolutionary
+wolves -> revolutionary
