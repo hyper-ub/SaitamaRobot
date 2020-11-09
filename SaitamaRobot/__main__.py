@@ -79,17 +79,15 @@ And the following:
 
 SAITAMA_IMG = "https://telegra.ph/file/863a3241604e433e8d71c.jpg"
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
-Saitama is hosted on one of Kaizoku's Servers and doesn't require any donations as of now but \
-You can donate to the original writer of the Base code, Paul
-There are two ways of supporting him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
+DONATE_STRING = """Anie doesn't need any donations as of now. Thank )""" 
+
 
 IMPORTED = {}
 MIGRATEABLE = []
 HELPABLE = {}
 STATS = []
 USER_INFO = []
-DATA_IMPORT = []
+DATA_IMPORT = []l
 DATA_EXPORT = []
 CHAT_SETTINGS = {}
 USER_SETTINGS = {}
