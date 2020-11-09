@@ -208,8 +208,8 @@ def start(update: Update, context: CallbackContext):
                      ],
                      [
                          InlineKeyboardButton(
-                             text="☑️Made from the source code of",
-                             url="https://t.me/shiwa_bhai_bot")
+                             text="☑️source code",
+                             url="https://github.com/botanie/Anierobot_bot")
                      ]]))
     else:
         update.effective_message.reply_text(
