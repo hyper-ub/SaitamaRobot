@@ -211,7 +211,7 @@ def start(update: Update, context: CallbackContext):
                      ]]))
     else:
         update.effective_message.reply_text(
-            "Heya :) PM me if you have any questions on how to use me!) 
+            "Heya :) PM me if you have any questions on how to use me") 
             
 
 
