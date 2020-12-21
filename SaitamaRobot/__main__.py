@@ -210,8 +210,8 @@ def start(update: Update, context: CallbackContext):
                             text=" Invite Nuur to your group ",
                             url="t.me/{}?startgroup=true".format(
                                 context.bot.username)),
-                     ],
-                      [
+                    ],
+                     [
                          InlineKeyboardButton(
                              text=" Support Chat ",
                              url="https://t.me/Nuur_Support")
@@ -219,8 +219,8 @@ def start(update: Update, context: CallbackContext):
                         InlineKeyboardButton(
                             text=" Creator ",
                             url="https://t.me/Roxy_Rose"),
-                     ],
-                      [
+                    ],
+                     [
                          InlineKeyboardButton(
                             text=" Music Channel ",
                              url="https://t.me/GalaxyMelodyMusicZone")        
@@ -230,8 +230,8 @@ def start(update: Update, context: CallbackContext):
                         InlineKeyboardButton(
                              text=" Source Code ",
                              url="https://github.com/Roxy-Rose/Nuur_Robot")
-                    
-                    ]]))
+                     
+                     ]]))
     else:
         update.effective_message.reply_text(
             "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>"
