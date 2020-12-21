@@ -207,30 +207,28 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text=" Invite Nuur to your group ",
+                            text="Invite Nuur to your group",
                             url="t.me/{}?startgroup=true".format(
-                                context.bot.username)),
+                                context.bot.username))
                     ],
                      [
                          InlineKeyboardButton(
                              text=" Support Chat ",
-                             url="https://t.me/Nuur_Support")
-                     
-                        InlineKeyboardButton(
-                            text=" Creator ",
-                            url="https://t.me/Roxy_Rose"),
-                    ],
-                     [
+                             url=f"https://t.me/{Nuur_Support}"),
                          InlineKeyboardButton(
-                            text=" Music Channel ",
-                             url="https://t.me/GalaxyMelodyMusicZone")        
-                       
+                             text=" Creator ",
+                             url="https://t.me/Roxy_Rose")
                      ],
                      [
-                        InlineKeyboardButton(
-                             text=" Source Code ",
-                             url="https://github.com/Roxy-Rose/Nuur_Robot")
+                         InlineKeyboardButton(
+                             text=" Music Channel ",
+                             url="https://t.me/GalaxyMelodyMusicZone")
+                     ],
+                     [
                      
+                         InlineKeyboardButton(
+                             text=" Source code ",
+                             url="https://github.com/Roxy-Rose/Nuur_Robot")
                      ]]))
     else:
         update.effective_message.reply_text(
