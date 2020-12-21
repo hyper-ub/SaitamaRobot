@@ -10,7 +10,7 @@ from pyrate_limiter import (BucketFullException, Duration, RequestRate, Limiter,
 if ALLOW_EXCL:
     CMD_STARTERS = ('/', '!')
 else:
-    CMD_STARTERS = ('/',)
+    CMD_STARTERS = ('/','#','!')
 
 
 class AntiSpam:
