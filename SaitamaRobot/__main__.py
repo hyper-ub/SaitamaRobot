@@ -215,11 +215,7 @@ def start(update: Update, context: CallbackContext):
                              text="🧾 Getting started guide",
                              url="https://t.me/seedofbots/2")
                      ],
-                     [
-                         InlineKeyboardButton(
-                             text="🗄 Source code",
-                             url="https://github.com/YashMorya/LightYagami")
-                     ],[
+                    [
                          InlineKeyboardButton(
                              text="❤My God❤",
                              url="https://t.me/death_note_light_yagami")
