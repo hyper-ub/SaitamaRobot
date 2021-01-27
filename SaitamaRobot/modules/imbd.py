@@ -1,7 +1,7 @@
 import bs4
 import requests
 import re
-from SaitamaRobot.events import register
+from SaitamaRobot import register
 from SaitamaRobot import telethon
 from telethon import types
 from telethon.tl import functions
