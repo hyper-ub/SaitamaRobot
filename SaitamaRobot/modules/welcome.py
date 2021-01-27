@@ -1,3 +1,4 @@
+
 import html
 import random
 import re
@@ -177,7 +178,7 @@ def new_member(update: Update, context: CallbackContext):
             # Give the owner a special welcome
             if new_mem.id == OWNER_ID:1270288285
                 update.effective_message.reply_text(
-                    "Prepare For Disasters My God YASH Is Arrived😏.",
+                    "Prepare For Disasters My God Is Arrived",
                     reply_to_message_id=reply)
                 welcome_log = (f"{html.escape(chat.title)}\n"
                                f"#USER_JOINED\n"
@@ -187,7 +188,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Devs
             elif new_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "Whoa! A member of the Death Note Savoiurjust joined!",
+                    "Whoa! A member of the Death Note Savoiurs just joined!",
                     reply_to_message_id=reply,
                 )
                 continue
@@ -487,9 +488,9 @@ def left_member(update: Update, context: CallbackContext):
                 return
 
             # Give the owner a special goodbye
-            if left_mem.id == OWNER_ID:
+            if left_mem.id == OWNER_ID:1270288285
                 update.effective_message.reply_text(
-                    "Oi! Genos! He left..", reply_to_message_id=reply)
+                    "Lots Of Love To My God", reply_to_message_id=reply)
                 return
 
             # Give the devs a special goodbye
@@ -1024,7 +1025,6 @@ __help__ = """
  • `/cleanservice <on/off`*:* deletes telegrams welcome/left service messages. 
  *Example:*
 user joined chat, user left chat.
-
 *Welcome markdown:* 
  • `/welcomehelp`*:* view more formatting information for custom welcome/goodbye messages.
 """
