@@ -1,3 +1,4 @@
+pip install pytube
 import re
 import html
 import aiohttp
