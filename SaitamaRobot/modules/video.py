@@ -14,8 +14,8 @@ from pySmartDL import SmartDL
 from telethon.tl.types import DocumentAttributeVideo, DocumentAttributeAudio
 from telethon import events
 
-from Cutiepii_Robot.event import register
-from Cutiepii_Robot.utils import progress
+from SaitamaRobot.event import register
+from SaitamaRobot.utils import progress
 from telethon.errors.rpcerrorlist import YouBlockedUserError
 from telethon.tl.functions.messages import ImportChatInviteRequest as Get
 from validators.url import url
