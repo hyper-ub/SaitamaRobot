@@ -176,7 +176,7 @@ def new_member(update: Update, context: CallbackContext):
                 reply = False
 
             # Give the owner a special welcome
-            if new_mem.id == OWNER_ID:1270288285
+            if new_mem.id == OWNER_ID:
                 update.effective_message.reply_text(
                     "Prepare For Disasters My God Is Arrived",
                     reply_to_message_id=reply)
