@@ -488,7 +488,7 @@ def left_member(update: Update, context: CallbackContext):
                 return
 
             # Give the owner a special goodbye
-            if left_mem.id == OWNER_ID:1270288285
+            if left_mem.id == OWNER_ID:
                 update.effective_message.reply_text(
                     "Lots Of Love To My God", reply_to_message_id=reply)
                 return
