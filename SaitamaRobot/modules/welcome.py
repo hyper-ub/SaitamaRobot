@@ -175,9 +175,9 @@ def new_member(update: Update, context: CallbackContext):
                 reply = False
 
             # Give the owner a special welcome
-            if new_mem.id == OWNER_ID:
+            if new_mem.id == OWNER_ID:1270288285
                 update.effective_message.reply_text(
-                    "Oh, Genos? Let's get this moving.",
+                    "Prepare For Disasters My God YASH Is Arrived😏.",
                     reply_to_message_id=reply)
                 welcome_log = (f"{html.escape(chat.title)}\n"
                                f"#USER_JOINED\n"
@@ -187,7 +187,7 @@ def new_member(update: Update, context: CallbackContext):
             # Welcome Devs
             elif new_mem.id in DEV_USERS:
                 update.effective_message.reply_text(
-                    "Whoa! A member of the Heroes Association just joined!",
+                    "Whoa! A member of the Death Note Savoiurjust joined!",
                     reply_to_message_id=reply,
                 )
                 continue
