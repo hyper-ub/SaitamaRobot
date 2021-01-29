@@ -29,7 +29,7 @@ REMEMBER: Turn on worker dyno (Don't worry It's free :D) & Webhook
 Now send the bot /start, If it doesn't respond go to https://dashboard.heroku.com/apps/(app-name)/settings and remove webhook and port.
 ```
 
-  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/AnimeKaizoku/SaitamaRobot.git)
+  [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/YashMorya/LightYagami.git)
 
 </details>  
 <details>
@@ -76,7 +76,7 @@ Install the necessary Python dependencies by moving to the project directory and
 
 `pip3 install -r requirements.txt`.
 
-This will install all the necessary python packages.
+This will install all the necessary python packages.t
 
   ### Database
 
@@ -173,11 +173,5 @@ For starters click on this button
 
 
 ## Credits
-The bot is based on the original work done by [PaulSonOfLars](https://github.com/PaulSonOfLars)
-This repo was just revamped to suit an Anime-centric community. All original credits go to Paul and his dedication, Without his efforts, this fork would not have been possible!
-
-Also, missing proper credit for blacklistusers taken from TheRealPhoenixBot (will add it later, this note says unless it is done)
-
-Any other authorship/credits can be seen through the commits.
-
-Should any be missing kindly let us know at [One Punch Support](https://t.me/OnePunchSupport) or simply submit a pull request on the readme.
+Saitama Robot - : https://github.com/AnimeKaizoku/SaitamaRobot
+Yash Morya -: https://github.com/YashMorya/LightYagami
