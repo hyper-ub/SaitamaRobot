@@ -51,3 +51,4 @@ pySmartDL
 validators
 google_trans_new
 nekos.py
+pbot
