@@ -204,17 +204,13 @@ def start(update: Update, context: CallbackContext):
                     ],
                      [
                          InlineKeyboardButton(
-                             text="🚑 Support Group",
+                             text="📢 Support Group",
                              url=f"https://t.me/{SUPPORT_CHAT}"),
                          InlineKeyboardButton(
-                             text="🔔 Updates Channel",
+                             text="🔔 Updates Of Light",
                              url="https://t.me/seedofbots")
                      ],
-                     [
-                         InlineKeyboardButton(
-                             text="🧾 Getting started guide",
-                             url="https://t.me/seedofbots/2")
-                     ], 
+                    
                       [
                          InlineKeyboardButton(
                              text="🖱Source Code⌨",
