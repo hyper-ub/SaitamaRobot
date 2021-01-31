@@ -58,7 +58,7 @@ Here You Can See My Power By Writing /help.
 """
 
 HELP_STRINGS = """
-Hey there! My name is *{}*.
+HI I Am [Light Yagami](https://telegra.ph/file/ce1ad3eb1c0476e9a8520.mp4)
 I am Justice! Here You Can See What Can I Do With My Death Note Have a look at the following for an idea of some of \
 the things I can help you with.
 
