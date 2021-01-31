@@ -516,7 +516,7 @@ __help__ = """
 ✪ `/kim`: Does the same as /hitler but with Kim Jong Un instead (O no plox dont bomb my house)
 ✪ `/rmeme`: Sends random meme scraped from reddit
 *Regex based memes:*
-✪ `/decide` can be also used with regex like: `suzuya? <question>: randomly answer "Yes, No" etc.`
+✪ `/decide` can be also used with regex like: `KIRA? <question>: randomly answer "Yes, No" etc.`
 Some other regex filters are:
 `goodmorning`, `good morning` or `goodnight`, `good night`.
 Saber will reply random strings accordingly when these words are used!
@@ -534,7 +534,7 @@ TRUTH_HANDLER = DisableAbleCommandHandler("truth", truth)
 SANITIZE_HANDLER = DisableAbleCommandHandler("sanitize", sanitize)
 SHRUG_HANDLER = DisableAbleCommandHandler("shrug", shrug)
 DECIDE_HANDLER = DisableAbleMessageHandler(
-    Filters.regex(r"(?i)^Suzuya\?"), decide, friendly="decide"
+    Filters.regex(r"(?i)^Kira\?"), decide, friendly="decide"
 )
 ABUSE_HANDLER = DisableAbleCommandHandler("abuse", abuse,pass_args=True)
 RUNS_HANDLER = DisableAbleCommandHandler("runs", runs ,pass_args=True)
