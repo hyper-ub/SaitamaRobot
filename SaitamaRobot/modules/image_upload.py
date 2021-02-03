@@ -9,7 +9,7 @@ from telethon.tl import types
 from telethon.tl.types import *
 
 from SaitamaRobot import oko
-from SaitamaRobot.event import register
+from SaitamaRobot.events import register
 
 
 async def is_register_admin(chat, user):
