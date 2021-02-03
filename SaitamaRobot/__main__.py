@@ -78,6 +78,7 @@ And the following:
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
 SAITAMA_IMG = "https://telegra.ph/file/4911c03742b50ad0d8bf7.jpg"
+LIGHT_IMG = "https://telegra.ph/file/1821c6334b42d3193d4d5.mp4"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
 """
@@ -222,6 +223,8 @@ def start(update: Update, context: CallbackContext):
                              url="https://t.me/death_note_light_yagami")
                      ]]))
     else:
+      update.effective_message.reply_video(
+                LIGHT_IMG)
         update.effective_message.reply_text(
             "Death Note Is Arrived!\n<b>Arrived since:</b> <code>{}</code>"
             .format(uptime),
