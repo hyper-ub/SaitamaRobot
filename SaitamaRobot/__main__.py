@@ -223,13 +223,11 @@ def start(update: Update, context: CallbackContext):
                              url="https://t.me/death_note_light_yagami")
                      ]]))
     else:
-      update.effective_message.reply_video(
+        update.effective_message.reply_video(
                 LIGHT_IMG)
         update.effective_message.reply_text(
-            "Death Note Is Arrived!\n<b>Arrived since:</b> <code>{}</code>"
-            .format(uptime),
+            "Death Note Is Arrived!\n<b>Arrived since:</b> <code>{}</code>".format(uptime),
             parse_mode=ParseMode.HTML)
-
 
 # for test purposes
 def error_callback(update: Update, context: CallbackContext):
