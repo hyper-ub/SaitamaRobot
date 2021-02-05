@@ -52,20 +52,17 @@ def get_readable_time(seconds: int) -> str:
 
 PM_START_TEXT = """
 Hi {}, my name is {}! 
-I am an Anime themed group management bot.
-I am Made To Provide Justice To Your Group.
-Here You Can See My Power By Writing /help.
+I'm a group manager bot.Rent me for your group if you want😃😃.
+You can find my list of available commands with /help.
 """
 
 HELP_STRINGS = """
-HI I Am [Light Yagami](https://telegra.ph/file/ce1ad3eb1c0476e9a8520.mp4)
-I am Justice! Here You Can See What Can I Do With My Death Note Have a look at the following for an idea of some of \
-the things I can help you with.
+Hey there! My name is *{}*.
+I'm a modular group management bot with a few fun extras! Have a look at the following for an idea of some of the things I can help you with.
 
 *Main* commands available:
  • /help: PM's you this message.
  • /help <module name>: PM's you info about that module.
- • /donate: information on how to donate!
  • /settings:
    • in PM: will send you your settings for all supported modules.
    • in a group: will redirect you to pm, with all that chat's settings.
@@ -77,11 +74,12 @@ And the following:
     dispatcher.bot.first_name, ""
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-SAITAMA_IMG = "https://telegra.ph/file/4911c03742b50ad0d8bf7.jpg"
-LIGHT_IMG = "https://telegra.ph/file/1821c6334b42d3193d4d5.mp4"
+PRINCY_IMG = "https://telegra.ph/file/4610db73cff888458f49c.jpg"
 
 DONATE_STRING = """Heya, glad to hear you want to donate!
-"""
+Princy is hosted on one of Kaizoku's Servers and doesn't require any donations as of now but \
+You can donate to the original writer of the Base code, Paul
+There are two ways of supporting him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
 
 IMPORTED = {}
 MIGRATEABLE = []
@@ -190,7 +188,7 @@ def start(update: Update, context: CallbackContext):
         else:
             first_name = update.effective_user.first_name
             update.effective_message.reply_photo(
-                SAITAMA_IMG,
+                PRINCY_IMG,
                 PM_START_TEXT.format(
                     escape_markdown(first_name),
                     escape_markdown(context.bot.first_name)),
@@ -199,35 +197,25 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(
                     [[
                         InlineKeyboardButton(
-                            text="☑️ Add Kira to your group",
+                            text="☑️ Add Princy to your group",
                             url="t.me/{}?startgroup=true".format(
                                 context.bot.username))
                     ],
                      [
                          InlineKeyboardButton(
-                             text="📢 Support Group",
+                             text="🚑 Support Group",
                              url=f"https://t.me/{SUPPORT_CHAT}"),
                          InlineKeyboardButton(
-                             text="🔔 Updates Of Light",
-                             url="https://t.me/seedofbots")
-                     ],
-                    
-                      [
-                         InlineKeyboardButton(
-                             text="🖱Source Code⌨",
-                             url="https://github.com/YashMorya/LightYagami")
-                     ],
-                    [
-                         InlineKeyboardButton(
-                             text="❤My God❤",
-                             url="https://t.me/death_note_light_yagami")
-                     ]]))
+                             text="🔔 Updates Channel",
+                             url="https://t.me/PrincyUpdates")
+                     ]
+                    ]))
     else:
-        update.effective_message.reply_video(
-                LIGHT_IMG)
         update.effective_message.reply_text(
-            "Death Note Is Arrived!\n<b>Arrived since:</b> <code>{}</code>".format(uptime),
+            "I'm awake already!\n<b>Haven't slept since:</b> <code>{}</code>"
+            .format(uptime),
             parse_mode=ParseMode.HTML)
+
 
 # for test purposes
 def error_callback(update: Update, context: CallbackContext):
