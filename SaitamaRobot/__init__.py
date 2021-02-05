@@ -178,7 +178,7 @@ else:
     sw = spamwatch.Client(SPAMWATCH_API)
     
     
-   REDIS = StrictRedis.from_url(REDIS_URL,decode_responses=True)
+   REDIS = StrictRedis.from_url(REDIS_URL, decode_responses=True)
 try:
     REDIS.ping()
     LOGGER.info("Your redis server is now alive!")
