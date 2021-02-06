@@ -86,6 +86,7 @@ if ENV:
     CASH_API_KEY = os.environ.get('CASH_API_KEY', None)
     TIME_API_KEY = os.environ.get('TIME_API_KEY', None)
     AI_API_KEY = os.environ.get('AI_API_KEY', None)
+    API_WEATHER  = os.environ.get('API_OPENWEATHER',False)
     WALL_API = os.environ.get('WALL_API', None)
     REDIS_URL = os.environ.get('REDIS_URL')
     SUPPORT_CHAT = os.environ.get('SUPPORT_CHAT', None)
@@ -157,6 +158,7 @@ else:
     REDIS_URL = Config.REDIS_URL
     TIME_API_KEY = Config.TIME_API_KEY
     AI_API_KEY = Config.AI_API_KEY
+    API_OPENWEATHER = Config.API_OPENWEATHER
     WALL_API = Config.WALL_API
     SUPPORT_CHAT = Config.SUPPORT_CHAT
     SPAMWATCH_SUPPORT_CHAT = Config.SPAMWATCH_SUPPORT_CHAT
