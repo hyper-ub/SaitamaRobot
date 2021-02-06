@@ -63,6 +63,7 @@ __help__ = """
  - /img <object> Gets google image results
  - /reverse : Reverse searches image or stickers on google.
  - /weather <city>  Get Weather of your city. 
+ - /phone number : Get info of phone numbers.
 """
 
 __mod_name__ = "Google"
