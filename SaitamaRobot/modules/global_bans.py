@@ -497,7 +497,8 @@ def __chat_settings__(chat_id, user_id):
 
 
 __help__ = f"""
-*Admins only:*
+
+*Anti-spam - 
  • `/antispam <on/off/yes/no>`*:* Will toggle our antispam tech or return your current settings.
 
 Anti-Spam, used by bot devs to ban spammers across all groups. This helps protect \
@@ -509,6 +510,26 @@ This also integrates @Spamwatch API to remove Spammers as much as possible from 
 SpamWatch maintains a large constantly updated ban-list of spambots, trolls, bitcoin spammers and unsavoury characters[.](https://telegra.ph/file/f584b643c6f4be0b1de53.jpg)
 Constantly help banning spammers off from your group automatically So, you wont have to worry about spammers storming your group.
 *Note:* Users can appeal spamwatch bans at @SpamwatchSupport
+
+*Anti-flood - 
+Antiflood allows you to take action on users that send more than x messages in a row. Exceeding the set flood \
+will result in restricting that user.
+
+ This will mute users if they send more than 10 messages in a row, bots are ignored.
+ • `/flood`*:* Get the current flood control setting
+
+• *Admins only:*
+ • `/setflood <int/'no'/'off'>`*:* enables or disables flood control
+ *Example:* `/setflood 10`
+ • `/setfloodmode <ban/kick/mute/tban/tmute> <value>`*:* Action to perform when user have exceeded flood limit. ban/kick/mute/tmute/tban
+
+• *Note:*
+ • Value must be filled for tban and tmute!!
+ It can be:
+ `5m` = 5 minutes
+ `6h` = 6 hours
+ `3d` = 3 days
+ `1w` = 1 week
 """
 
 GBAN_HANDLER = CommandHandler("gban", gban)
@@ -524,7 +545,7 @@ dispatcher.add_handler(UNGBAN_HANDLER)
 dispatcher.add_handler(GBAN_LIST)
 dispatcher.add_handler(GBAN_STATUS)
 
-__mod_name__ = "Anti-Spam"
+__mod_name__ = "Anti-Shield"
 __handlers__ = [GBAN_HANDLER, UNGBAN_HANDLER, GBAN_LIST, GBAN_STATUS]
 
 if STRICT_GBAN:  # enforce GBANS if this is set
