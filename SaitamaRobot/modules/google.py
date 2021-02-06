@@ -65,4 +65,4 @@ __help__ = """
  - /weather <city>  Get Weather of your city. 
 """
 
-__mod_name__ = "🌍 GOOGLE"
+__mod_name__ = "Google"
