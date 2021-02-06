@@ -1,15 +1,14 @@
 #This Module (Tagall) Is Taken From @zoldycktmbot
 
-import html
-from telegram import Chat, User, ParseMode
+from telegram import ParseMode
 from telegram.error import BadRequest
 from telegram.utils.helpers import mention_html
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from telegram.ext import (run_async,
                           Filters, CommandHandler,
                           CallbackQueryHandler)
 
-from SaitamaRobot import dispatcher
+from SaitamaRobot import dispatcher, REDIS
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (
     bot_admin,
@@ -38,8 +37,7 @@ def addtag(update, context):
         if excp.message == "User not found":
             message.reply_text("I can't seem to find this user")
             return 
-        else:
-            raise
+        raise
     if user_id == context.bot.id:
         message.reply_text("how I supposed to tag myself")
         return 
@@ -87,8 +85,7 @@ def removetag(update, context):
         if excp.message == "User not found":
             message.reply_text("I can't seem to find this user")
             return 
-        else:
-            raise
+        raise
     if user_id == context.bot.id:
         message.reply_text("how I supposed to tag or untag myself")
         return 
