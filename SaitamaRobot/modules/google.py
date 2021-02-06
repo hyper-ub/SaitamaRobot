@@ -64,6 +64,7 @@ __help__ = """
  - /reverse : Reverse searches image or stickers on google.
  - /weather <city>  Get Weather of your city. 
  - /phone number : Get info of phone numbers.
+ - /app Appname : Get download link of playstore app and info.
 """
 
 __mod_name__ = "Google"
