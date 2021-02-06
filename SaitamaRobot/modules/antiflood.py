@@ -352,7 +352,7 @@ def __chat_settings__(chat_id, user_id):
 #  `6h` = 6 hours
 #  `3d` = 3 days
 #  `1w` = 1 week
- """
+#  """
 
 # __mod_name__ = "Anti-Flood"
 
