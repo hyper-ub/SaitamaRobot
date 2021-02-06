@@ -59,11 +59,10 @@ async def _(event):
 
 
 __help__ = """
- ➩ /google <text input> Gets google search result
-
- ➩ /img <object> Gets google image results
-
- ➩ /reverse : Reverse searches image or stickers on google.
+ - /google <text input> Gets google search result
+ - /img <object> Gets google image results
+ - /reverse : Reverse searches image or stickers on google.
+ - /weather <city>  Get Weather of your city. 
 """
 
 __mod_name__ = "🌍 GOOGLE"
