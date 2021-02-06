@@ -1,228 +1,274 @@
-import html
-from SaitamaRobot.modules.disable import DisableAbleCommandHandler
-from SaitamaRobot import dispatcher, DRAGONS
-from SaitamaRobot.modules.helper_funcs.extraction import extract_user
-from telegram.ext import CallbackContext, run_async, CallbackQueryHandler
-import SaitamaRobot.modules.sql.approve_sql as sql
-from SaitamaRobot.modules.helper_funcs.chat_status import user_admin
-from SaitamaRobot.modules.log_channel import loggable
-from telegram import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton, Update
-from telegram.utils.helpers import mention_html
+#This Module (Tagall) Is Taken From @zoldycktmbot
+
+from telegram import ParseMode
 from telegram.error import BadRequest
+from telegram.utils.helpers import mention_html
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton
+from telegram.ext import (run_async,
+                          Filters, CommandHandler,
+                          CallbackQueryHandler)
+
+from SaitamaRobot import dispatcher, REDIS
+from SaitamaRobot.modules.disable import DisableAbleCommandHandler
+from SaitamaRobot.modules.helper_funcs.chat_status import (
+    bot_admin,
+    user_admin
+)
+from SaitamaRobot.modules.helper_funcs.extraction import extract_user_and_text
+from SaitamaRobot.modules.helper_funcs.alternate import typing_action
 
 
-@loggable
-@user_admin
 @run_async
-def approve(update, context):
+@bot_admin
+@user_admin
+@typing_action
+def addtag(update, context):
+    chat = update.effective_chat  
+    user = update.effective_user 
     message = update.effective_message
-    chat_title = message.chat.title
-    chat = update.effective_chat
-    args = context.args
-    user = update.effective_user
-    user_id = extract_user(message, args)
+    args = context.args 
+    user_id, reason = extract_user_and_text(message, args)
     if not user_id:
-        message.reply_text(
-            "I don't know who you're talking about, you're going to need to specify a user!"
-        )
-        return ""
+        message.reply_text("You don't seem to be referring to a user.")
+        return 
     try:
         member = chat.get_member(user_id)
-    except BadRequest:
-        return ""
-    if member.status == "administrator" or member.status == "creator":
+    except BadRequest as excp:
+        if excp.message == "User not found":
+            message.reply_text("I can't seem to find this user")
+            return 
+        raise
+    if user_id == context.bot.id:
+        message.reply_text("how I supposed to tag myself")
+        return 
+    
+    chat_id = str(chat.id)[1:] 
+    tagall_list = list(REDIS.sunion(f'tagall2_{chat_id}'))
+    match_user = mention_html(member.user.id, member.user.first_name)
+    if match_user in tagall_list:
         message.reply_text(
-            "User is already admin - locks, blocklists, and antiflood already don't apply to them."
+            "{} is already exist in {}'s tag list.".format(mention_html(member.user.id, member.user.first_name),
+                                                           chat.title),
+            parse_mode=ParseMode.HTML
         )
-        return ""
-    if sql.is_approved(message.chat_id, user_id):
-        message.reply_text(
-            f"[{member.user['first_name']}](tg://user?id={member.user['id']}) is already approved in {chat_title}",
-            parse_mode=ParseMode.MARKDOWN,
-        )
-        return ""
-    sql.approve(message.chat_id, user_id)
+        return
     message.reply_text(
-        f"[{member.user['first_name']}](tg://user?id={member.user['id']}) has been approved in {chat_title}! They will now be ignored by automated admin actions like locks, blocklists, and antiflood.",
-        parse_mode=ParseMode.MARKDOWN,
+        "{} accept this, if you want to add yourself into {}'s tag list! or just simply decline this.".format(mention_html(member.user.id, member.user.first_name),
+                                                                     chat.title),
+        reply_markup=InlineKeyboardMarkup(
+                                   [
+                                       [
+                                           InlineKeyboardButton(text="Accept", callback_data=f"tagall_accept={user_id}"),
+                                           InlineKeyboardButton(text="Decline", callback_data=f"tagall_dicline={user_id}")  
+                                        ]
+                                    ]
+                                   ),
+        parse_mode=ParseMode.HTML
     )
-    log_message = (
-        f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#APPROVED\n"
-        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
-    )
 
-    return log_message
-
-
-@loggable
-@user_admin
 @run_async
-def disapprove(update, context):
+@bot_admin
+@user_admin
+@typing_action
+def removetag(update, context):
+    chat = update.effective_chat  
+    user = update.effective_user 
     message = update.effective_message
-    chat_title = message.chat.title
-    chat = update.effective_chat
-    args = context.args
-    user = update.effective_user
-    user_id = extract_user(message, args)
+    args = context.args 
+    user_id, reason = extract_user_and_text(message, args)
     if not user_id:
-        message.reply_text(
-            "I don't know who you're talking about, you're going to need to specify a user!"
-        )
-        return ""
+        message.reply_text("You don't seem to be referring to a user.")
+        return 
     try:
         member = chat.get_member(user_id)
-    except BadRequest:
-        return ""
-    if member.status == "administrator" or member.status == "creator":
-        message.reply_text("This user is an admin, they can't be unapproved.")
-        return ""
-    if not sql.is_approved(message.chat_id, user_id):
-        message.reply_text(f"{member.user['first_name']} isn't approved yet!")
-        return ""
-    sql.disapprove(message.chat_id, user_id)
-    message.reply_text(
-        f"{member.user['first_name']} is no longer approved in {chat_title}."
-    )
-    log_message = (
-        f"<b>{html.escape(chat.title)}:</b>\n"
-        f"#UNAPPROVED\n"
-        f"<b>Admin:</b> {mention_html(user.id, user.first_name)}\n"
-        f"<b>User:</b> {mention_html(member.user.id, member.user.first_name)}"
-    )
-
-    return log_message
-
-
-@user_admin
-@run_async
-def approved(update, context):
-    message = update.effective_message
-    chat_title = message.chat.title
-    chat = update.effective_chat
-    msg = "The following users are approved.\n"
-    approved_users = sql.list_approved(message.chat_id)
-    for i in approved_users:
-        member = chat.get_member(int(i.user_id))
-        msg += f"- `{i.user_id}`: {member.user['first_name']}\n"
-    if msg.endswith("approved.\n"):
-        message.reply_text(f"No users are approved in {chat_title}.")
-        return ""
-    else:
-        message.reply_text(msg, parse_mode=ParseMode.MARKDOWN)
-
-
-@user_admin
-@run_async
-def approval(update, context):
-    message = update.effective_message
-    chat = update.effective_chat
-    args = context.args
-    user_id = extract_user(message, args)
+    except BadRequest as excp:
+        if excp.message == "User not found":
+            message.reply_text("I can't seem to find this user")
+            return 
+        raise
+    if user_id == context.bot.id:
+        message.reply_text("how I supposed to tag or untag myself")
+        return 
+    chat_id = str(chat.id)[1:] 
+    tagall_list = list(REDIS.sunion(f'tagall2_{chat_id}'))
+    match_user = mention_html(member.user.id, member.user.first_name)
+    if match_user not in tagall_list:
+        message.reply_text(
+            "{} is doesn't exist in {}'s list!".format(mention_html(member.user.id, member.user.first_name),
+                                                      chat.title),
+            parse_mode=ParseMode.HTML
+        )
+        return
     member = chat.get_member(int(user_id))
-    if not user_id:
-        message.reply_text(
-            "I don't know who you're talking about, you're going to need to specify a user!"
-        )
-        return ""
-    if sql.is_approved(message.chat_id, user_id):
-        message.reply_text(
-            f"{member.user['first_name']} is an approved user. Locks, antiflood, and blocklists won't apply to them."
-        )
-    else:
-        message.reply_text(
-            f"{member.user['first_name']} is not an approved user. They are affected by normal commands."
-        )
-
+    chat_id = str(chat.id)[1:]
+    REDIS.srem(f'tagall2_{chat_id}', mention_html(member.user.id, member.user.first_name))
+    message.reply_text(
+        "{} is successfully removed from {}'s list.".format(mention_html(member.user.id, member.user.first_name),
+                                                                     chat.title),
+        parse_mode=ParseMode.HTML
+    )
 
 @run_async
-def unapproveall(update: Update, context: CallbackContext):
-    chat = update.effective_chat
-    user = update.effective_user
-    member = chat.get_member(user.id)
-    if member.status != "creator" and user.id not in DRAGONS:
-        update.effective_message.reply_text(
-            "Only the chat owner can unapprove all users at once."
-        )
-    else:
-        buttons = InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        text="Unapprove all users", callback_data="unapproveall_user"
-                    )
-                ],
-                [
-                    InlineKeyboardButton(
-                        text="Cancel", callback_data="unapproveall_cancel"
-                    )
-                ],
-            ]
-        )
-        update.effective_message.reply_text(
-            f"Are you sure you would like to unapprove ALL users in {chat.title}? This action cannot be undone.",
-            reply_markup=buttons,
-            parse_mode=ParseMode.MARKDOWN,
-        )
-
-
-@run_async
-def unapproveall_btn(update: Update, context: CallbackContext):
+def tagg_all_button(update, context):
     query = update.callback_query
-    chat = update.effective_chat
+    chat = update.effective_chat  
+    splitter = query.data.split('=')
+    query_match = splitter[0]
+    user_id = splitter[1]
+    if query_match == "tagall_accept":
+        if query.from_user.id == int(user_id):
+            member = chat.get_member(int(user_id))
+            chat_id = str(chat.id)[1:]
+            REDIS.sadd(f'tagall2_{chat_id}', mention_html(member.user.id, member.user.first_name))
+            query.message.edit_text(
+                "{} is accepted! to add yourself {}'s tag list.".format(mention_html(member.user.id, member.user.first_name),
+                                                                        chat.title),
+                parse_mode=ParseMode.HTML
+            )
+            
+        else:
+            context.bot.answer_callback_query(query.id,
+                                              text="You're not the user being added in tag list!"
+                                              )
+    elif query_match == "tagall_dicline":
+        if query.from_user.id == int(user_id):
+            member = chat.get_member(int(user_id))
+            query.message.edit_text(
+                "{} is deslined! to add yourself {}'s tag list.".format(mention_html(member.user.id, member.user.first_name),
+                                                                        chat.title),
+                parse_mode=ParseMode.HTML
+            )
+        else:
+            context.bot.answer_callback_query(query.id,
+                                              text="You're not the user being added in tag list!"
+                                              )           
+            
+@run_async
+@typing_action
+def untagme(update, context): 
+    chat = update.effective_chat  
+    user = update.effective_user 
     message = update.effective_message
-    member = chat.get_member(query.from_user.id)
-    if query.data == "unapproveall_user":
-        if member.status == "creator" or query.from_user.id in DRAGONS:
-            approved_users = sql.list_approved(chat.id)
-            users = [int(i.user_id) for i in approved_users]
-            for user_id in users:
-                sql.disapprove(chat.id, user_id)
+    chat_id = str(chat.id)[1:] 
+    tagall_list = list(REDIS.sunion(f'tagall2_{chat_id}'))
+    match_user = mention_html(user.id, user.first_name)
+    if match_user not in tagall_list: 
+        message.reply_text(
+            "You're already doesn't exist in {}'s tag list!".format(chat.title)
+        )
+        return
+    REDIS.srem(f'tagall2_{chat_id}', mention_html(user.id, user.first_name))
+    message.reply_text(
+        "{} has been removed from {}'s tag list.".format(mention_html(user.id, user.first_name),
+                                                         chat.title),
+        parse_mode=ParseMode.HTML
+    )
 
-        if member.status == "administrator":
-            query.answer("Only owner of the chat can do this.")
+@run_async
+@typing_action
+def tagme(update, context): 
+    chat = update.effective_chat  
+    user = update.effective_user 
+    message = update.effective_message 
+    chat_id = str(chat.id)[1:] 
+    tagall_list = list(REDIS.sunion(f'tagall2_{chat_id}'))
+    match_user = mention_html(user.id, user.first_name)
+    if match_user in tagall_list:
+        message.reply_text(
+            "You're Already Exist In {}'s Tag List!".format(chat.title)
+        ) 
+        return
+    REDIS.sadd(f'tagall2_{chat_id}', mention_html(user.id, user.first_name))
+    message.reply_text(
+        "{} has been successfully added in {}'s tag list.".format(mention_html(user.id, user.first_name),
+                                                         chat.title),
+        parse_mode=ParseMode.HTML
+    )
+    
+@run_async
+@bot_admin
+@user_admin
+@typing_action
+def tagall(update, context):
+    chat = update.effective_chat 
+    user = update.effective_user 
+    message = update.effective_message
+    args = context.args
+    query = " ".join(args)
+    if not query:
+        message.reply_text("Please give a reason why are you want to tag all!")
+        return
+    chat_id = str(chat.id)[1:] 
+    tagall = list(REDIS.sunion(f'tagall2_{chat_id}'))
+    tagall.sort()
+    tagall = ", ".join(tagall)
+    
+    if tagall:
+        tagall_reason = query 
+        if message.reply_to_message:
+            message.reply_to_message.reply_text(
+                "{}"
+                "\n\n<b>• Tagged Reason : </b>"
+                "\n{}".format(tagall, tagall_reason),
+                parse_mode=ParseMode.HTML
+            )
+        else:
+            message.reply_text(
+                "{}"
+                "\n\n<b>• Tagged Reason : </b>"
+                "\n{}".format(tagall, tagall_reason),
+                parse_mode=ParseMode.HTML
+            )
+    else:
+        message.reply_text(
+            "Tagall list is empty!"
+        )
 
-        if member.status == "member":
-            query.answer("You need to be admin to do this.")
-    elif query.data == "unapproveall_cancel":
-        if member.status == "creator" or query.from_user.id in DRAGONS:
-            message.edit_text("Removing of all approved users has been cancelled.")
-            return ""
-        if member.status == "administrator":
-            query.answer("Only owner of the chat can do this.")
-        if member.status == "member":
-            query.answer("You need to be admin to do this.")
+@run_async
+@bot_admin
+@user_admin
+@typing_action
+def untagall(update, context):
+    chat = update.effective_chat 
+    user = update.effective_user 
+    message = update.effective_message
+    chat_id = str(chat.id)[1:] 
+    tagall_list = list(REDIS.sunion(f'tagall2_{chat_id}'))
+    for tag_user in tagall_list:
+        REDIS.srem(f'tagall2_{chat_id}', tag_user)
+    message.reply_text(
+        "Successully removed all users from {}'s tag list.".format(chat.title)
+    )
+        
+__mod_name__ = "Tagger"    
+
+__help__ = """ 
+Tagger is an essential feature to mention all subscribed members in the group. Any chat members can subscribe to tagger.
+
+- /tagme: registers to the chat tag list.
+- /untagme: unsubscribes from the chat tag list.
+
+*Admin only:*
+- /tagall: mention all subscribed members.
+- /untagall: clears all subscribed members. 
+- /addtag <userhandle>: add a user to chat tag list. (via handle, or reply)
+- /removetag <userhandle>: remove a user to chat tag list. (via handle, or reply)
+"""    
+
+TAG_ALL_HANDLER = DisableAbleCommandHandler("tagall", tagall, filters=Filters.group)
+UNTAG_ALL_HANDLER = DisableAbleCommandHandler("untagall", untagall, filters=Filters.group)
+UNTAG_ME_HANDLER = CommandHandler("untagme", untagme, filters=Filters.group)
+TAG_ME_HANDLER = CommandHandler("tagme", tagme, filters=Filters.group)
+ADD_TAG_HANDLER = DisableAbleCommandHandler("addtag", addtag, pass_args=True, filters=Filters.group)
+REMOVE_TAG_HANDLER = DisableAbleCommandHandler("removetag", removetag, pass_args=True, filters=Filters.group)
+TAGALL_CALLBACK_HANDLER = CallbackQueryHandler(tagg_all_button, pattern=r"tagall_")
 
 
-__help__ = """
-Sometimes, you might trust a user not to send unwanted content.
-Maybe not enough to make them admin, but you might be ok with locks, blacklists, and antiflood not applying to them.
 
-That's what approvals are for - approve of trustworthy users to allow them to send 
-
-*Admin commands:*
-- `/approval`*:* Check a user's approval status in this chat.
-- `/approve`*:* Approve of a user. Locks, blacklists, and antiflood won't apply to them anymore.
-- `/unapprove`*:* Unapprove of a user. They will now be subject to locks, blacklists, and antiflood again.
-- `/approved`*:* List all approved users.
-- `/unapproveall`*:* Unapprove *ALL* users in a chat. This cannot be undone.
-"""
-
-APPROVE = DisableAbleCommandHandler("approve", approve)
-DISAPPROVE = DisableAbleCommandHandler("unapprove", disapprove)
-APPROVED = DisableAbleCommandHandler("approved", approved)
-APPROVAL = DisableAbleCommandHandler("approval", approval)
-UNAPPROVEALL = DisableAbleCommandHandler("unapproveall", unapproveall)
-UNAPPROVEALL_BTN = CallbackQueryHandler(unapproveall_btn, pattern=r"unapproveall_.*")
-
-dispatcher.add_handler(APPROVE)
-dispatcher.add_handler(DISAPPROVE)
-dispatcher.add_handler(APPROVED)
-dispatcher.add_handler(APPROVAL)
-dispatcher.add_handler(UNAPPROVEALL)
-dispatcher.add_handler(UNAPPROVEALL_BTN)
-
-__mod_name__ = "Approval"
-__command_list__ = ["approve", "unapprove", "approved", "approval"]
-__handlers__ = [APPROVE, DISAPPROVE, APPROVED, APPROVAL]
+dispatcher.add_handler(TAG_ALL_HANDLER)
+dispatcher.add_handler(UNTAG_ALL_HANDLER)
+dispatcher.add_handler(UNTAG_ME_HANDLER)
+dispatcher.add_handler(TAG_ME_HANDLER)
+dispatcher.add_handler(ADD_TAG_HANDLER)
+dispatcher.add_handler(REMOVE_TAG_HANDLER)
+dispatcher.add_handler(TAGALL_CALLBACK_HANDLER)
