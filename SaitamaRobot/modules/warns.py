@@ -3,7 +3,7 @@ import re
 from typing import Optional
 
 import telegram
-from SaitamaRobot import TIGERS, WOLVES, dispatcher
+from SaitamaRobot import BAN_STICKER, TIGERS, WOLVES, dispatcher
 from SaitamaRobot.modules.disable import DisableAbleCommandHandler
 from SaitamaRobot.modules.helper_funcs.chat_status import (bot_admin,
                                                            can_restrict,
@@ -18,6 +18,7 @@ from SaitamaRobot.modules.helper_funcs.misc import split_message
 from SaitamaRobot.modules.helper_funcs.string_handling import split_quotes
 from SaitamaRobot.modules.log_channel import loggable
 from SaitamaRobot.modules.sql import warns_sql as sql
+from SaitamaRobot.modules.sql.approve_sql import is_approved
 from telegram import (CallbackQuery, Chat, InlineKeyboardButton,
                       InlineKeyboardMarkup, Message, ParseMode, Update, User)
 from telegram.error import BadRequest
@@ -344,6 +345,8 @@ def reply_filter(update: Update, context: CallbackContext) -> str:
 
     if user.id == 777000:
         return
+    if is_approved(chat.id, user.id):
+        return
 
     chat_warn_filters = sql.get_chat_warn_triggers(chat.id)
     to_match = extract_text(message)
@@ -459,21 +462,21 @@ def __chat_settings__(chat_id, user_id):
     )
 
 
-# __help__ = """
-#  • `/warns <userhandle>`*:* get a user's number, and reason, of warns.
-#  • `/warnlist`*:* list of all current warning filters
+__help__ = """
+ • `/warns <userhandle>`*:* get a user's number, and reason, of warns.
+ • `/warnlist`*:* list of all current warning filters
 
-# *Admins only:*
-#  • `/warn <userhandle>`*:* warn a user. After 3 warns, the user will be banned from the group. Can also be used as a reply.
-#  • `/resetwarn <userhandle>`*:* reset the warns for a user. Can also be used as a reply.
-#  • `/addwarn <keyword> <reply message>`*:* set a warning filter on a certain keyword. If you want your keyword to \
-# be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is an angry user`. 
-#  • `/nowarn <keyword>`*:* stop a warning filter
-#  • `/warnlimit <num>`*:* set the warning limit
-#  • `/strongwarn <on/yes/off/no>`*:* If set to on, exceeding the warn limit will result in a ban. Else, will just punch.
-# """
+*Admins only:*
+ • `/warn <userhandle>`*:* warn a user. After 3 warns, the user will be banned from the group. Can also be used as a reply.
+ • `/resetwarn <userhandle>`*:* reset the warns for a user. Can also be used as a reply.
+ • `/addwarn <keyword> <reply message>`*:* set a warning filter on a certain keyword. If you want your keyword to \
+be a sentence, encompass it with quotes, as such: `/addwarn "very angry" This is an angry user`. 
+ • `/nowarn <keyword>`*:* stop a warning filter
+ • `/warnlimit <num>`*:* set the warning limit
+ • `/strongwarn <on/yes/off/no>`*:* If set to on, exceeding the warn limit will result in a ban. Else, will just punch.
+"""
 
-# __mod_name__ = "Warnings"
+__mod_name__ = "Warnings"
 
 WARN_HANDLER = CommandHandler("warn", warn_user, filters=Filters.group)
 RESET_WARN_HANDLER = CommandHandler(["resetwarn", "resetwarns"],
